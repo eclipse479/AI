@@ -1,8 +1,12 @@
 #include "Application2D.h"
+#include "heap.h"
 #include "ctime"
 int main() {
-	srand(unsigned int(time(NULL)));
 	// allocation
+
+	//auto [a_left, a_right] = h.childrenOf(10);
+
+
 	auto app = new Application2D();
 
 	// initialise and loop

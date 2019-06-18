@@ -145,7 +145,7 @@ void Application2D::update(float deltaTime)
 				}
 			}
 			selectionQueue.push(closestNode);
-
+			closestNode->hasBeenSelected = true;
 			if (selectionQueue.size() > 2)
 			{
 				selectionQueue.pop();
@@ -153,7 +153,7 @@ void Application2D::update(float deltaTime)
 
 			if (selectionQueue.size() == 2)
 			{
-				m_graph->calculatePath(selectionQueue.front(), selectionQueue.back());
+				m_graph->calculatePathAStar(selectionQueue.front(), selectionQueue.back());
 			}
 		}
 	// exit the application
@@ -171,40 +171,57 @@ void Application2D::draw() {
 	
 	//m_2dRenderer->drawSprite(background, 925, 575, 2100, 1200,0,100);
 	
-	m_2dRenderer->setRenderColour(.5, 0, .5);
+	//draws the grid
 	for (auto & a_edge : m_graph->m_edges)
 	{
-		node<Vector2>* A = a_edge->m_nodes[0];
-		node<Vector2>* B = a_edge->m_nodes[1];
-		m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y);
+		if (a_edge->hasBeenTraced)
+		{
+			m_2dRenderer->setRenderColour(.5, 0, .5);
+			node<Vector2>* A = a_edge->m_nodes[0];
+			node<Vector2>* B = a_edge->m_nodes[1];
+			m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y,5);
+		}
+		else
+		{
+			m_2dRenderer->setRenderColour(1, .45f, .5f);
+			node<Vector2>* A = a_edge->m_nodes[0];
+			node<Vector2>* B = a_edge->m_nodes[1];
+			m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y,5);
+		}
 	}
-
-	m_2dRenderer->setRenderColour(.5, .5, 0);
-
+	m_2dRenderer->setRenderColour(1, 1, 1);
+	//draws the circles for all of the nodes
 	for (auto & a_node : m_graph->m_nodes)
 	{
-		m_2dRenderer->drawCircle(a_node->m_data.x, a_node->m_data.y,5);
+		if (a_node->hasBeenSelected) // if a node has been selected colour it green
+		{
+			m_2dRenderer->drawSprite(bigBad, a_node->m_data.x, a_node->m_data.y, 50,50);
+		}
+		else // else colour it yellow
+		{
+	
+			m_2dRenderer->drawSprite(heart,a_node->m_data.x, a_node->m_data.y, 25,25);
+		}
 	}
-
+	//draws the blue dot
 	if (selectionQueue.size() > 0)
 	{
 		m_2dRenderer->setRenderColour(0, 0, 1);
-		m_2dRenderer->drawCircle(selectionQueue.front()->m_data.x, selectionQueue.front()->m_data.y, 10);
+		m_2dRenderer->drawSprite(hero,selectionQueue.front()->m_data.x, selectionQueue.front()->m_data.y, 50,50);
 	}
+	//draws the red dot
 	if (selectionQueue.size() > 1)
 	{
 		m_2dRenderer->setRenderColour(1, 0, 0);
-		m_2dRenderer->drawCircle(selectionQueue.back()->m_data.x, selectionQueue.back()->m_data.y, 10);
+		m_2dRenderer->drawSprite(hero,selectionQueue.back()->m_data.x, selectionQueue.back()->m_data.y, 50,50);
 	}
-
+	//draws the path
 	for (int i =0 ; i < int(m_graph->path.size())-1 ;++i)
 	{
-
 		m_2dRenderer->setRenderColour(1, 1, 0);
 		node<Vector2>* A = m_graph->path[i];
 		node<Vector2>* B = m_graph->path[i + 1];
-		m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y);
-
+		m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y,5);
 	}
 
 	char fps[32];

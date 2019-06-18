@@ -20,6 +20,7 @@ public:
 
 
 	node<T>* m_nodes[2];
+	bool hasBeenTraced = false;
 private:
 };
 

@@ -8,6 +8,7 @@
 #include "Input.h"
 #include <list>
 #include "graph.h"
+#include "heap.h"
 #include <queue>
 
 class Application2D : public aie::Application {

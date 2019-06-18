@@ -33,11 +33,17 @@ public:
 	T m_data;
 	node<T>* previous = nullptr;
 	int gScore = 0;
+	int fScore = 0;
+	int hScore = 0;
+	bool hasBeenSelected = false;
+
 
 	void reset()
 	{
 		previous = nullptr;
 		gScore = 0;
+		fScore = 0;
+		hScore = 0;
 	}
 };
 

@@ -128,16 +128,130 @@ public:
 			}
 
 			node<T>* endNode = end;
+			node<T>* pathTracer = end->previous;
 			path.push_back(endNode);
 			while (endNode != start)
 			{
+				pathTracer = endNode->previous;
+				for (auto& edge : endNode->get_edges())
+				{
+					for (auto& Secondedge : pathTracer->get_edges())
+					{
+						if (edge == Secondedge)
+						{
+							edge->hasBeenTraced = true;
+						}
+					}
+				}
+
+				if (endNode->previous == nullptr)
+				{
+					break;
+				}
 				endNode = endNode->previous;
 				path.push_back(endNode);
+
 			}
-		return path;
+			return path;
 	}
 
+	std::vector<node<T>*>& calculatePathAStar(node<T>* start, node<T>* end)
+	{
+		for (auto& a_node : m_nodes)
+		{
+			a_node->reset();
+		}
+		path.clear();
 
+		if (!start || !end)
+		{
+			return path;
+		}
+		if (start == end)
+		{
+			path.push_back(start);
+			return path;
+		}
+
+		heap openHeap;
+		std::list<node<T>*> closedHeap;
+
+		openHeap.add(start);
+		node<T>* currentNode;
+
+		while (openHeap.size())
+		{
+			currentNode = openHeap.pop();
+
+			closedHeap.push_back(currentNode);
+
+			for (auto& edge : currentNode->get_edges())
+			{
+				node<T>* otherNode = nullptr;
+
+				if (edge->m_nodes[0] == currentNode)
+				{
+					otherNode = edge->m_nodes[1];
+				}
+				else
+				{
+					otherNode = edge->m_nodes[0];
+				}
+				
+				if (std::find(std::begin(closedHeap), std::end(closedHeap), otherNode) == closedHeap.end())
+				{
+					int currentGScore = currentNode->gScore + 1;
+
+					int fScore = currentNode->fScore + 1;
+					int currentHeuristic = (int)(otherNode->m_data - end->m_data).magnitude();
+
+					//if (std::find(std::begin(openHeap), std::end(openHeap), otherNode) == openHeap.end())
+					if(openHeap.find(otherNode) == -1)
+					{
+						otherNode->gScore = currentGScore;
+						otherNode->hScore = currentHeuristic;
+						otherNode->fScore = currentGScore + currentHeuristic;
+
+						otherNode->previous = currentNode;
+						openHeap.add(otherNode);
+					}
+					else if (currentGScore + currentHeuristic < otherNode->fScore)
+					{
+						otherNode->gScore = currentNode->gScore;
+						otherNode->previous = currentNode;
+					}
+				}
+			}
+
+		}
+
+		node<T>* endNode = end;
+		node<T>* pathTracer = end->previous;
+		path.push_back(endNode);
+		while (endNode != start)
+		{
+			pathTracer = endNode->previous;
+			for (auto& edge : endNode->get_edges())
+			{
+				for (auto& Secondedge : pathTracer->get_edges())
+				{
+					if (edge == Secondedge)
+					{
+						edge->hasBeenTraced = true;
+					}		
+				}
+			}
+
+			endNode = endNode->previous;
+			if (endNode->previous == nullptr)
+			{
+				break;
+			}
+			path.push_back(endNode);
+			
+		}
+		return path;
+	}
 
 	std::vector<node<T>*> m_nodes;
 	std::vector<edge<T>*> m_edges;
