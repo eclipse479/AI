@@ -173,7 +173,7 @@
   <ItemGroup>
     <ClCompile Include="Application2D.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="planets.cpp" />
+    <ClCompile Include="gameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application2D.h" />
@@ -181,7 +181,7 @@
     <ClInclude Include="graph.h" />
     <ClInclude Include="heap.h" />
     <ClInclude Include="node.h" />
-    <ClInclude Include="planets.h" />
+    <ClInclude Include="gameObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

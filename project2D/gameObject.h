@@ -7,12 +7,12 @@
 #include "Renderer2D.h"
 #include <iostream>
 
-class planets
+class gameObject
 {
 public:
-	planets() {}
-	planets(aie::Texture* image, const Vector_2& a_position, float newWidth, float newHieght, const float rotationZ, const float newRadius, const float spin = 0.0f, const float orbit = 0.0f, float newHealth = 1);
-	~planets();
+	gameObject() {}
+	gameObject(aie::Texture* image, const Vector_2& a_position, float newWidth, float newHieght, const float rotationZ, const float newRadius, const float spin = 0.0f, const float orbit = 0.0f, float newHealth = 1);
+	~gameObject();
 
 	void update(const float deltaTime);
 
@@ -25,7 +25,7 @@ public:
 	void setRotation(const float rotation);
 	void setGlobalRotation(const float rotation);
 
-	void setParent(planets* theParent);
+	void setParent(gameObject* theParent);
 	aie::Texture* getTexture();
 
 	float getWidth();
@@ -46,8 +46,8 @@ public:
 
 	void drawPlanet(aie::Renderer2D* m_2dRenderer);
 
-	bool circleCircleCollision(planets* other);
-	bool boxcollision(planets* other);
+	bool circleCircleCollision(gameObject* other);
+	bool boxcollision(gameObject* other);
 
 	void setWall(float posX, float posY, float width, float height);
 
@@ -93,7 +93,7 @@ protected:
 	Vector_2 size;
 	aie::Texture* texture;
 
-	planets* parent;
+	gameObject* parent;
 	float health;
 	bool alive = true;
 };
