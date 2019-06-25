@@ -5,21 +5,17 @@ class baseConversion
 public:
 	baseConversion();
 	~baseConversion();
-
 	// converts a string of 1's and 0's into an integer
 	static int binaryStringToInteger(const char* aBinaryString);
-
 	// converts an integer into string of 1's and 0's 
 	//desitination char*
 	//the char* should be sizeof(int) * 8 + 1 bytes long
 	static void integerToBinaryString(char* aBinaryString, int value);
-
 	// sets the bit at the given index to the passed state
 	// the bitField to edit by reference
 	// the index of the bit to change
 	// the desired state of the bit at teh index
 	static void setBit(int& aBitField, char aBitIndex, bool aState);
-
 	// reads the bit at the given index to the passed state
 		// the bitField read only to chech
 		// the index of the bit to check

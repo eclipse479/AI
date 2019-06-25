@@ -2,13 +2,14 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
-#include "Vector2.h"
+#include "Vector_2.h"
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
 #include <list>
 #include "graph.h"
 #include "heap.h"
+#include "gameObject.h"
 #include <queue>
 
 class Application2D : public aie::Application {
@@ -34,13 +35,17 @@ protected:
 	aie::Texture*		bones;
 	aie::Texture*		orbital;
 	aie::Texture*		alone;
+	aie::Texture*		boi;
 	aie::Font*			m_font;
-	graph<Vector2>*		m_graph;
+
+	gameObject*			zambie;
+
+	graph<Vector_2>*		m_graph;
 
 	int spacing = 60;
 	int width = 20;
 	int height = 11;
 
-	std::queue<node<Vector2>*>	selectionQueue;
+	std::queue<node<Vector_2>*>	selectionQueue;
 	float m_timer;
 };

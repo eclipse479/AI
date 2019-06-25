@@ -74,7 +74,7 @@ protected:
 
 	float speed;
 	float acceleration;
-	float maxSpeed = 750;
+	float maxSpeed = 50;
 	float currentRotation; //this is in radians
 	float orbitSpeed;	   //this is in radians / second
 	float spinSpeed;	   //this is in radians / second

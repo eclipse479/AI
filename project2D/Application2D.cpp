@@ -16,16 +16,18 @@ bool Application2D::startup() {
 	m_2dRenderer = new aie::Renderer2D();
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
-	
+
 	hero = new aie::Texture("../bin/textures/speedWagon.png");
 	bigBad = new aie::Texture("../bin/textures/bigBadBoss.png");
 	background = new aie::Texture("../bin/textures/dungeon Room.png");
 	heart = new aie::Texture("../bin/textures/heart.png");
 	bones = new aie::Texture("../bin/textures/skullBones.png");
 	orbital = new aie::Texture("../bin/textures/sanicBlade.png");
-	m_graph = new graph<Vector2>();
+	m_graph = new graph<Vector_2>();
 	alone = new aie::Texture("../bin/textures/chaser.png");
-	
+	boi = new aie::Texture("../bin/textures/hero.png");
+
+	zambie = new gameObject(boi, { 200, 200 }, 50, 50, 0, 25);
 	//recursive magic to build graphs
 
 	for (int i = 0; i < height; ++i)
@@ -75,6 +77,7 @@ void Application2D::shutdown()
 	delete orbital;
 	delete alone;
 	delete m_graph;
+	delete boi;
 }
 
 void Application2D::update(float deltaTime) 
@@ -95,11 +98,11 @@ void Application2D::update(float deltaTime)
 	input->getMouseXY(&mouseX, &mouseY);
 	
 	float shortestDistance = FLT_MAX;
-	node<Vector2>* closestNode = nullptr;
+	node<Vector_2>* closestNode = nullptr;
 	//-------------------------RIGHT CLICK -------------------------------
 	if (input->wasMouseButtonPressed(1)) 
 	{
-		Vector2 mousePosition = { float(mouseX),float(mouseY) };
+		Vector_2 mousePosition = { float(mouseX),float(mouseY) };
 
 		for (auto& a_node : m_graph->m_nodes)
 		{
@@ -115,7 +118,7 @@ void Application2D::update(float deltaTime)
 	// ----------------------------LEFT CLICK------------------------------
 		if (input->wasMouseButtonPressed(0)) 
 		{
-			Vector2 mousePosition = { float(mouseX),float(mouseY) };
+			Vector_2 mousePosition = { float(mouseX),float(mouseY) };
 
 			for (auto& a_node : m_graph->m_nodes)
 			{
@@ -136,7 +139,7 @@ void Application2D::update(float deltaTime)
 		}
 		if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
 		{
-			Vector2 mousePosition = { float(mouseX),float(mouseY) };
+			Vector_2 mousePosition = { float(mouseX),float(mouseY) };
 
 			for (auto& a_node : m_graph->m_nodes)
 			{
@@ -161,8 +164,8 @@ void Application2D::update(float deltaTime)
 				
 				
 				// moves red through path
-				node<Vector2>* A = selectionQueue.front();
-				node<Vector2>* B = selectionQueue.back();
+				node<Vector_2>* A = selectionQueue.front();
+				node<Vector_2>* B = selectionQueue.back();
 				while (selectionQueue.size() > 0)
 				{
 					selectionQueue.pop();
@@ -183,7 +186,8 @@ void Application2D::update(float deltaTime)
 				m_graph->calculatePathAStar(selectionQueue.front(), selectionQueue.back());
 			}
 
-
+			zambie->update(deltaTime);
+			zambie->move(deltaTime);
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -199,22 +203,22 @@ void Application2D::draw() {
 	m_2dRenderer->begin();
 	
 	m_2dRenderer->drawSprite(background, 925, 575, 2100, 1200,0,100);
-	
+	zambie->drawPlanet(m_2dRenderer);
 	//draws the grid
 	for (auto & a_edge : m_graph->m_edges)
 	{
 		if (a_edge->hasBeenTraced)
 		{
 			m_2dRenderer->setRenderColour(.5, 0, .5);
-			node<Vector2>* A = a_edge->m_nodes[0];
-			node<Vector2>* B = a_edge->m_nodes[1];
+			node<Vector_2>* A = a_edge->m_nodes[0];
+			node<Vector_2>* B = a_edge->m_nodes[1];
 			m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y,5);
 		}
 		else
 		{
 			m_2dRenderer->setRenderColour(1, .45f, .5f);
-			node<Vector2>* A = a_edge->m_nodes[0];
-			node<Vector2>* B = a_edge->m_nodes[1];
+			node<Vector_2>* A = a_edge->m_nodes[0];
+			node<Vector_2>* B = a_edge->m_nodes[1];
 			m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y,5);
 		}
 	}
@@ -246,8 +250,8 @@ void Application2D::draw() {
 	for (int i = 0 ; i < int(m_graph->path.size())-1 ;++i)
 	{
 		m_2dRenderer->setRenderColour(1, 1, 0);
-		node<Vector2>* A = m_graph->path[i];
-		node<Vector2>* B = m_graph->path[i + 1];
+		node<Vector_2>* A = m_graph->path[i];
+		node<Vector_2>* B = m_graph->path[i + 1];
 		m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y,5);
 	}
 	m_2dRenderer->setRenderColour(1, 1, 1);

@@ -2,6 +2,7 @@
 #include "Application2D.h"
 #include "collisionManager.h"
 
+
 gameObject::gameObject(aie::Texture* image, const Vector_2& a_position, float newWidth, float newHieght, const float rotationZ, const float newRadius, const float spin/* = 0.0f*/, const float orbit/* = 0.0f*/, float newHealth /*= 1*/)
 	: texture(image), position(a_position), width(newWidth), height(newHieght), currentRotation(rotationZ), radius(newRadius), spinSpeed(spin), orbitSpeed(orbit),health(newHealth)
 {
@@ -64,41 +65,36 @@ void gameObject::move(const float deltaTime)
 	aie::Input* input = aie::Input::getInstance();
 	float accelerationHold = 350;
 	float spinHold = 5.0f;
-	if (input->isKeyDown(aie::INPUT_KEY_W))
-	{
-		setAcceleation(accelerationHold);
-	}
-	else if (input->isKeyDown(aie::INPUT_KEY_S))
-	{
-		setAcceleation(-accelerationHold+100);
-	}
-	else if (speed < 0)
-	{
-		setAcceleation(100);
-	}
-	else if (speed > 0)
-	{
-		setAcceleation(-100);
-	}
-	else
-	{
-		setAcceleation(0.0f);
-	}
+	int mouseX = 0;
+	int mouseY = 0;
 
-	if (input->isKeyDown(aie::INPUT_KEY_A))
-	{
-		setSpin(spinHold);
-	}
-	else if (input->isKeyDown(aie::INPUT_KEY_D))
-	{
-		setSpin(-spinHold);
-	}
-	else
-	{
-		setSpin(0.0f);
-	}
+	input->getMouseXY(&mouseX, &mouseY);
+	
+	Vector_2 mousePos = { float(mouseX), float(mouseY) };
+	Vector_2 direction = { mouseX - localPositionMatrix.forward.x,mouseY - localPositionMatrix.forward.y };
+	float uuu = direction.normalised().magnitude();
+	setAcceleation(accelerationHold);
 
+	if (uuu < 0.995f)
+	{
+		if (uuu < 1 && uuu > 0)
+		{
+			setSpin(spinHold);
+		}
+		else if (uuu > -1 && uuu < 0)
+		{
+			setSpin(-spinHold);
+		}
+		else
+		{
+			setSpin(0.0f);
+		}
+	}
 	localPositionMatrix.forward += localPositionMatrix.up * speed*deltaTime;
+	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
+	{
+		
+	}
 }
 
 matrix_3x3 const &gameObject::getGlobalMatrix() const
@@ -134,8 +130,7 @@ void gameObject::setParent(gameObject* theParent)
 {
 	parent = theParent;
 }
-
-
+	
 float gameObject::getWidth()
 {
 	return width;
@@ -163,7 +158,6 @@ void gameObject::setSpin(float newSpin)
 	spinSpeed = newSpin;
 }
 
-
 float gameObject::getAcceleation()
 {
 	return acceleration;
@@ -190,10 +184,6 @@ bool gameObject::circleCircleCollision(gameObject* other)
 		return false;
 	}
 }
-
-
-
-
 
 float gameObject::getHealth()
 {
@@ -224,8 +214,6 @@ void gameObject::setWall(float posX, float posY, float width, float height)
 	wall = { {posX,posY}, {width,height} };
 }
 
-
-
 float gameObject::getX()
 {
 	return globalPositionMatrix.forward.x;
@@ -238,14 +226,16 @@ float gameObject::getY()
 aie::Texture* gameObject::getTexture()
 {
 	return texture;
-}float gameObject::getRadius()
-{
-	return radius;
-
 }
 void gameObject::changeTexture(aie::Texture* newImage)
 {
 	texture = newImage;
+}
+
+float gameObject::getRadius()
+{
+	return radius;
+
 }
 
 void gameObject::changeSpeed(float spin, float orbit)
