@@ -77,32 +77,7 @@ public:
 	
 	}
 
-//template <typename node<vector_2>*>
-//void add(const node<vector_2>* a_item)
-//	{
-//		// Add at first available index
-//		m_data[m_item_count] = a_item;
-//
-//		// Rebalance | parent swap - Min heap
-//		int where_we_are = int(m_item_count);
-//		int our_parent = parent_of(where_we_are);
-//
-//		while ((m_data[where_we_are]->m_g_score < m_data[our_parent]->m_g_score) &&
-//			(where_we_are > 0))
-//		{
-//			// Swap and repeat
-//			T swap_buffer = m_data[where_we_are];
-//			m_data[where_we_are] = m_data[our_parent];
-//			m_data[our_parent] = swap_buffer;
-//			// Iterate
-//			where_we_are = our_parent;
-//			our_parent = parent_of(where_we_are);
-//		}
-//
-//		++m_item_count;
-//
-//	}
-//
+
 	node<Vector2>* pop()
 	{
 		node<Vector2>* out_data = m_data[0];
@@ -157,60 +132,7 @@ public:
 		return out_data;
 	}
 
-	//template <typename node<vector_2>*>
-	//node<vector_2>* pop()
-	//{
-	//	node<vector_2>* out_data = m_data[0];
-	//
-	//	// Last becomes first
-	//	m_data[0] = m_data[m_item_count - 1];
-	//
-	//	// Swapsies down the tree
-	//	int where_we_are = 0;
-	//	int left_child = 0;
-	//	int right_child = 0;
-	//
-	//	bool trading_down = true;
-	//	while (/*bool trading_down = true;*/ trading_down)
-	//	{
-	//		// Gather indexes
-	//		children_of(where_we_are, left_child, right_child);
-	//
-	//		//auto[left, right] = children_of(where_we_are);
-	//
-	//		int smaller_child_index = -1;
-	//		if (left_child > 0 && right_child > 0)
-	//		{
-	//			// Identify smallest child
-	//			smaller_child_index =
-	//				(m_data[left_child]->m_g_score > m_data[right_child]->m_g_score) ? right_child : left_child;
-	//		}
-	//		else if (left_child > 0)
-	//		{
-	//			smaller_child_index = left_child;
-	//		}
-	//		else
-	//		{
-	//			break; // Swapped as low as we can go.
-	//		}
-	//
-	//		// Swap if smaller than where we are
-	//		if (m_data[where_we_are] > m_data[smaller_child_index])
-	//		{
-	//			T swap_buffer = m_data[where_we_are];
-	//			m_data[where_we_are] = m_data[smaller_child_index];
-	//			m_data[smaller_child_index] = swap_buffer;
-	//			where_we_are = smaller_child_index; // Continue trading down
-	//		}
-	//		else
-	//		{
-	//			trading_down = false;
-	//		}
-	//	}
-	//
-	//	m_item_count--;
-	//	return out_data;
-	//}
+
 
 	node<Vector2>** m_data = nullptr;
 	size_t m_capacity = 0;

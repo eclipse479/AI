@@ -36,7 +36,7 @@ public:
 	int fScore = 0;
 	int hScore = 0;
 	bool hasBeenSelected = false;
-
+	bool avaliable = true;
 
 	void reset()
 	{

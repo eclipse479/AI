@@ -33,13 +33,13 @@ protected:
 	aie::Texture*		heart;
 	aie::Texture*		bones;
 	aie::Texture*		orbital;
+	aie::Texture*		alone;
 	aie::Font*			m_font;
-
 	graph<Vector2>*		m_graph;
 
-	int spacing = 40;
-	int width = 31;
-	int height = 17;
+	int spacing = 60;
+	int width = 20;
+	int height = 11;
 
 	std::queue<node<Vector2>*>	selectionQueue;
 	float m_timer;
