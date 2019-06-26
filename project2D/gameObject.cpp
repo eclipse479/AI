@@ -72,28 +72,28 @@ void gameObject::move(const float deltaTime)
 	
 	Vector_2 mousePos = { float(mouseX), float(mouseY) };
 	Vector_2 direction = { mouseX - localPositionMatrix.forward.x,mouseY - localPositionMatrix.forward.y };
-	float uuu = direction.normalised().magnitude();
+	Vector_2 velocity = direction.normalised();
 	setAcceleation(accelerationHold);
 
-	if (uuu < 0.995f)
-	{
-		if (uuu < 1 && uuu > 0)
-		{
-			setSpin(spinHold);
-		}
-		else if (uuu > -1 && uuu < 0)
-		{
-			setSpin(-spinHold);
-		}
-		else
-		{
-			setSpin(0.0f);
-		}
-	}
+	//if (velocity < 0.995f)
+	//{
+	//	if (velocity < 1 && velocity >= 0)
+	//	{
+	//		setSpin(spinHold);
+	//	}
+	//	else if (velocity > -1 && velocity < 0)
+	//	{
+	//		setSpin(-spinHold);
+	//	}
+	//	else
+	//	{
+	//		setSpin(0.0f);
+	//	}
+	//}
 	localPositionMatrix.forward += localPositionMatrix.up * speed*deltaTime;
 	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
 	{
-		
+		std::cout << "hi\n";
 	}
 }
 

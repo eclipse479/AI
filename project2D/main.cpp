@@ -3,7 +3,7 @@
 #include "ctime"
 int main() {
 	// allocation
-
+	srand(unsigned int(time(NULL)));
 	//auto [a_left, a_right] = h.childrenOf(10);
 
 

@@ -11,6 +11,7 @@
 #include "heap.h"
 #include "gameObject.h"
 #include <queue>
+#include "flock.h"
 
 class Application2D : public aie::Application {
 public:
@@ -41,6 +42,8 @@ protected:
 	gameObject*			zambie;
 
 	graph<Vector_2>*		m_graph;
+
+	flock* theFlock;
 
 	int spacing = 60;
 	int width = 20;

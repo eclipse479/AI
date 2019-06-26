@@ -174,15 +174,19 @@
     <ClCompile Include="agent.cpp" />
     <ClCompile Include="Application2D.cpp" />
     <ClCompile Include="behaviour.cpp" />
+    <ClCompile Include="flock.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="gameObject.cpp" />
+    <ClCompile Include="boid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="agent.h" />
     <ClInclude Include="Application2D.h" />
     <ClInclude Include="behaviour.h" />
     <ClInclude Include="edge.h" />
+    <ClInclude Include="flock.h" />
     <ClInclude Include="graph.h" />
+    <ClInclude Include="boid.h" />
     <ClInclude Include="heap.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="gameObject.h" />

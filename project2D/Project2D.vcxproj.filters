@@ -30,6 +30,12 @@
     <ClCompile Include="behaviour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="boid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="flock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application2D.h">
@@ -54,6 +60,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="behaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="flock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -40,13 +40,13 @@ void behaviour::wander(float deltaTime)
 
 void behaviour::seek(float deltaTime)
 {
-	aie::Input* input = aie::Input::getInstance();
+	/*aie::Input* input = aie::Input::getInstance();
 	input->getMouseXY(&targetMouseX, &targetMouseY);
 	mousePos = { float(targetMouseX),float(targetMouseY) };
 	targetPos = mousePos;
 	Vector_2 direction = (mousePos - currentPos);
 	float uuu = direction.normalised().magnitude();
-	uuu * deltaTime * 100;
+	uuu * deltaTime * 100;*/
 }
 
 void behaviour::updateDirection(float deltaTime)

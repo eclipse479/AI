@@ -28,6 +28,8 @@ bool Application2D::startup() {
 	boi = new aie::Texture("../bin/textures/hero.png");
 
 	zambie = new gameObject(boi, { 200, 200 }, 50, 50, 0, 25);
+
+	theFlock = new flock();
 	//recursive magic to build graphs
 
 	for (int i = 0; i < height; ++i)
@@ -39,7 +41,6 @@ bool Application2D::startup() {
 	}
 
 	//Horizontals
-
 	for (int i = 0; i < height; ++i)
 	{
 		for (int j = 0; j < width-1; ++j)
@@ -62,6 +63,7 @@ bool Application2D::startup() {
 	}
 
 	m_timer = 0;
+	theFlock->createBoids(50);
 	return true;
 }
 
@@ -84,6 +86,7 @@ void Application2D::update(float deltaTime)
 {
 	aie::Input* input = aie::Input::getInstance();
 	
+	theFlock->update(deltaTime);
 
 	float camPosX;
 	float camPosY;
@@ -203,6 +206,7 @@ void Application2D::draw() {
 	m_2dRenderer->begin();
 	
 	m_2dRenderer->drawSprite(background, 925, 575, 2100, 1200,0,100);
+	theFlock->draw(m_2dRenderer);
 	zambie->drawPlanet(m_2dRenderer);
 	//draws the grid
 	for (auto & a_edge : m_graph->m_edges)
