@@ -10,7 +10,7 @@ int main() {
 	auto app = new Application2D();
 
 	// initialise and loop
-	app->run("AIE", 1280, 720, false);
+	app->run("AIE", 1800, 1100, false);
 
 	// deallocation
 	delete app;

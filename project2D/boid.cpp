@@ -9,6 +9,10 @@ boid::boid(flock* parentFlock)
 
 	velocity = Vector_2(float((rand() % 11) - 5), float((rand() % 11) - 5));
 	
+	red = ((rand() % 10)*0.2);
+	green = ((rand() % 10)*0.2);
+	blue = ((rand() % 10)*0.2);
+
 	if (velocity.magnitude() <= 0.00001f)
 	{
 		velocity = Vector_2(BOID_SPEED, 0.0f);
@@ -23,6 +27,7 @@ boid::boid(flock* parentFlock)
 boid::boid()
 {
 }
+
 void boid::update(float deltaTime)
 {
 	//create list------------------------------------------------------------------
@@ -39,7 +44,7 @@ void boid::update(float deltaTime)
 		}
 	}
 
-	//average Neighbour position  SEPARATION---------------------------------
+	//average Neighbour position ---------------------------------
 	if (neighbours.size() > 0) 
 	{
 	Vector_2 averageNeighbourPos;
@@ -56,15 +61,15 @@ void boid::update(float deltaTime)
 		this->applyForce(fromUsToAveragePos);
 	}
 
-	//-------------------World center---------------------------------------------------------
-	Vector_2 worldCenter = { 640,360 };
+	//-------------------World center keeps the boids inside the circle---------------------------------------------------------
+	Vector_2 worldCenter = { 900,550 };
 	Vector_2 toCenter = worldCenter - this->position;
-	float distanceOutsideCircle = toCenter.magnitude()-360;
+	float distanceOutsideCircle = (toCenter.magnitude()-500);
 
-	if (toCenter.magnitude() > 0.0f)
+	if (distanceOutsideCircle > 0.0f)
 	{
 		toCenter.normalise();
-		toCenter *= distanceOutsideCircle * CIRCLE_RADIUS;
+		toCenter *= (CIRCLE_FORCE * distanceOutsideCircle);
 		this->applyForce(toCenter);
 	}
 
@@ -73,12 +78,14 @@ void boid::update(float deltaTime)
 	Vector_2 separationForce;
 	for (boid* thisBoid : neighbours)
 	{
-		Vector_2 fromNeighbourToYou = thisBoid->position;
+		Vector_2 fromNeighbourToYou = position - thisBoid->position;
 		fromNeighbourToYou.normalise();
 		fromNeighbourToYou *= SEPARATION_FORCE;
 		separationForce += fromNeighbourToYou;
 	}
+
 	this->applyForce(separationForce);
+
 	//---------------------------------COHESION---------------------------------
 	if (neighbours.size() > 0)
 	{
@@ -109,18 +116,18 @@ void boid::update(float deltaTime)
 	}
 
 	//cursor stuff------------------------------------------------------------------
-	/*Vector_2 holdToCursor = theFlock->cursorPosition - this->position;
-	
-	float forceMagnitude = holdToCursor.magnitude();
+	//Vector_2 holdToCursor = theFlock->cursorPosition - this->position;
+	//
+	//float forceMagnitude = holdToCursor.magnitude();
 
-	forceMagnitude -= .1f;
-	forceMagnitude = theFlock->attract * 10000 / (forceMagnitude*forceMagnitude +1000.0f);
+	//forceMagnitude -= .1f;
+	//forceMagnitude = theFlock->attract * 10000 / (forceMagnitude*forceMagnitude +1000.0f);
 
-	holdToCursor.normalise();
-	
-	this->applyForce(holdToCursor * .2f);*/
+	//holdToCursor.normalise();
+	//
+	//this->applyForce(holdToCursor * .2f);
 
-	
+	//----------------------------------------------------
 	if (velocity.magnitude() <= 0.00001f)
 	{
 		velocity = Vector_2(BOID_SPEED, 0.0f);
@@ -136,6 +143,7 @@ void boid::update(float deltaTime)
 
 void boid::draw(aie::Renderer2D* renderer)
 {
+	renderer->setRenderColour(red, green, blue);
 	renderer->drawCircle(position.x, position.y, 5);
 }
 

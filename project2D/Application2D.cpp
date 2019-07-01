@@ -63,7 +63,7 @@ bool Application2D::startup() {
 	}
 
 	m_timer = 0;
-	theFlock->createBoids(50);
+	theFlock->createBoids(BOID_COUNT);
 	return true;
 }
 
@@ -88,109 +88,102 @@ void Application2D::update(float deltaTime)
 	
 	theFlock->update(deltaTime);
 
-	float camPosX;
-	float camPosY;
-	m_2dRenderer->getCameraPos(camPosX, camPosY);
-	//moves the camera
-	
-	m_2dRenderer->setCameraPos(camPosX, camPosY);
+	//int mouseX = 0;
+	//int mouseY = 0;
 
-	int mouseX = 0;
-	int mouseY = 0;
+	//input->getMouseXY(&mouseX, &mouseY);
+	//
+	//float shortestDistance = FLT_MAX;
+	//node<Vector_2>* closestNode = nullptr;
+	////-------------------------RIGHT CLICK -------------------------------
+	//if (input->wasMouseButtonPressed(1)) 
+	//{
+	//	Vector_2 mousePosition = { float(mouseX),float(mouseY) };
 
-	input->getMouseXY(&mouseX, &mouseY);
-	
-	float shortestDistance = FLT_MAX;
-	node<Vector_2>* closestNode = nullptr;
-	//-------------------------RIGHT CLICK -------------------------------
-	if (input->wasMouseButtonPressed(1)) 
-	{
-		Vector_2 mousePosition = { float(mouseX),float(mouseY) };
+	//	for (auto& a_node : m_graph->m_nodes)
+	//	{
+	//		float distance = (mousePosition - a_node->m_data).magnitude();
+	//		if (distance < shortestDistance)
+	//		{
+	//			shortestDistance = distance;
+	//			closestNode = a_node;
+	//		}
+	//	}
+	//	m_graph->removeNode(closestNode);
+	//}
+	//// ----------------------------LEFT CLICK------------------------------
+	//	if (input->wasMouseButtonPressed(0)) 
+	//	{
+	//		Vector_2 mousePosition = { float(mouseX),float(mouseY) };
 
-		for (auto& a_node : m_graph->m_nodes)
-		{
-			float distance = (mousePosition - a_node->m_data).magnitude();
-			if (distance < shortestDistance)
-			{
-				shortestDistance = distance;
-				closestNode = a_node;
-			}
-		}
-		m_graph->removeNode(closestNode);
-	}
-	// ----------------------------LEFT CLICK------------------------------
-		if (input->wasMouseButtonPressed(0)) 
-		{
-			Vector_2 mousePosition = { float(mouseX),float(mouseY) };
+	//		for (auto& a_node : m_graph->m_nodes)
+	//		{
+	//			float distance = (mousePosition - a_node->m_data).magnitude();
+	//			if (distance < shortestDistance)
+	//			{
+	//				shortestDistance = distance;
+	//				closestNode = a_node;
+	//			}
+	//		}
+	//		selectionQueue.push(closestNode);
+	//		closestNode->hasBeenSelected = true;
+	//		if (selectionQueue.size() > 2)
+	//		{
+	//			selectionQueue.pop();
+	//		}
 
-			for (auto& a_node : m_graph->m_nodes)
-			{
-				float distance = (mousePosition - a_node->m_data).magnitude();
-				if (distance < shortestDistance)
-				{
-					shortestDistance = distance;
-					closestNode = a_node;
-				}
-			}
-			selectionQueue.push(closestNode);
-			closestNode->hasBeenSelected = true;
-			if (selectionQueue.size() > 2)
-			{
-				selectionQueue.pop();
-			}
+	//	}
+	//	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
+	//	{
+	//		Vector_2 mousePosition = { float(mouseX),float(mouseY) };
 
-		}
-		if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
-		{
-			Vector_2 mousePosition = { float(mouseX),float(mouseY) };
-
-			for (auto& a_node : m_graph->m_nodes)
-			{
-				float distance = (mousePosition - a_node->m_data).magnitude();
-				if (distance < shortestDistance)
-				{
-					shortestDistance = distance;
-					closestNode = a_node;
-				}
-			}
-			closestNode->avaliable = !closestNode->avaliable;
-		}
+	//		for (auto& a_node : m_graph->m_nodes)
+	//		{
+	//			float distance = (mousePosition - a_node->m_data).magnitude();
+	//			if (distance < shortestDistance)
+	//			{
+	//				shortestDistance = distance;
+	//				closestNode = a_node;
+	//			}
+	//		}
+	//		closestNode->avaliable = !closestNode->avaliable;
+	//	}
 
 
-		if (input->wasKeyPressed(aie::INPUT_KEY_UP) || input->wasKeyPressed(aie::INPUT_KEY_DOWN) || input->wasKeyPressed(aie::INPUT_KEY_LEFT) || input->wasKeyPressed(aie::INPUT_KEY_RIGHT))
-		{
-			if (selectionQueue.size() == 2 && selectionQueue.front() != selectionQueue.back())
-			{
-				
-				
-				
-				
-				
-				// moves red through path
-				node<Vector_2>* A = selectionQueue.front();
-				node<Vector_2>* B = selectionQueue.back();
-				while (selectionQueue.size() > 0)
-				{
-					selectionQueue.pop();
-				}
+	//	if (input->wasKeyPressed(aie::INPUT_KEY_UP) || input->wasKeyPressed(aie::INPUT_KEY_DOWN) || input->wasKeyPressed(aie::INPUT_KEY_LEFT) || input->wasKeyPressed(aie::INPUT_KEY_RIGHT))
+	//	{
+	//		if (selectionQueue.size() == 2 && selectionQueue.front() != selectionQueue.back())
+	//		{
+	//			
+	//			
+	//			
+	//			
+	//			
+	//			// moves red through path
+	//			node<Vector_2>* A = selectionQueue.front();
+	//			node<Vector_2>* B = selectionQueue.back();
+	//			while (selectionQueue.size() > 0)
+	//			{
+	//				selectionQueue.pop();
+	//			}
 
-				if (m_graph->path.size() > 0)
-				{
-					B = m_graph->path[1];
-				}
+	//			if (m_graph->path.size() > 0)
+	//			{
+	//				B = m_graph->path[1];
+	//			}
 
-				selectionQueue.push(A);
-				selectionQueue.push(B);
-			}
-		}
+	//			selectionQueue.push(A);
+	//			selectionQueue.push(B);
+	//		}
+	//	}
 
-			if (selectionQueue.size() == 2)
-			{
-				m_graph->calculatePathAStar(selectionQueue.front(), selectionQueue.back());
-			}
+	//		if (selectionQueue.size() == 2)
+	//		{
+	//			m_graph->calculatePathAStar(selectionQueue.front(), selectionQueue.back());
+	//		}
 
-			zambie->update(deltaTime);
-			zambie->move(deltaTime);
+	//		zambie->update(deltaTime);
+	//		zambie->move(deltaTime);
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -205,51 +198,52 @@ void Application2D::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 	
-	m_2dRenderer->drawSprite(background, 925, 575, 2100, 1200,0,100);
-	theFlock->draw(m_2dRenderer);
-	zambie->drawPlanet(m_2dRenderer);
-	//draws the grid
-	for (auto & a_edge : m_graph->m_edges)
-	{
-		if (a_edge->hasBeenTraced)
-		{
-			m_2dRenderer->setRenderColour(.5, 0, .5);
-			node<Vector_2>* A = a_edge->m_nodes[0];
-			node<Vector_2>* B = a_edge->m_nodes[1];
-			m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y,5);
-		}
-		else
-		{
-			m_2dRenderer->setRenderColour(1, .45f, .5f);
-			node<Vector_2>* A = a_edge->m_nodes[0];
-			node<Vector_2>* B = a_edge->m_nodes[1];
-			m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y,5);
-		}
-	}
+	//m_2dRenderer->drawSprite(background, 925, 575, 2100, 1200,0,100);
 	m_2dRenderer->setRenderColour(1, 1, 1);
-	//draws all of the nodes
-	for (auto & a_node : m_graph->m_nodes)
-	{
-		if (!a_node->avaliable) // else draw rubber duck
-		{
-			m_2dRenderer->drawSprite(orbital,a_node->m_data.x, a_node->m_data.y, 50,50);
-		}
-		else if (a_node->hasBeenSelected) // if a node has been selected draw mike
-		{
-			m_2dRenderer->drawSprite(bigBad, a_node->m_data.x, a_node->m_data.y, 100,100);
-		}
-		else
-		{
-			m_2dRenderer->drawSprite(heart, a_node->m_data.x, a_node->m_data.y, 25, 25);
-		}
-		
-			for (auto & path_node : m_graph->path)
-			{
-				//if(path_node == m_graph->path->front())
-					m_2dRenderer->drawSprite(bones, path_node->m_data.x, path_node->m_data.y, 75, 75);
-			}
-	
-	}
+	theFlock->draw(m_2dRenderer);// the boids are drawn here-----------------------
+	//zambie->drawPlanet(m_2dRenderer);
+	//draws the grid
+	//for (auto & a_edge : m_graph->m_edges)
+	//{
+	//	if (a_edge->hasBeenTraced)
+	//	{
+	//		m_2dRenderer->setRenderColour(.5, 0, .5);
+	//		node<Vector_2>* A = a_edge->m_nodes[0];
+	//		node<Vector_2>* B = a_edge->m_nodes[1];
+	//		m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y,5);
+	//	}
+	//	else
+	//	{
+	//		m_2dRenderer->setRenderColour(1, .45f, .5f);
+	//		node<Vector_2>* A = a_edge->m_nodes[0];
+	//		node<Vector_2>* B = a_edge->m_nodes[1];
+	//		m_2dRenderer->drawLine(A->m_data.x, A->m_data.y, B->m_data.x, B->m_data.y,5);
+	//	}
+	//}
+	//m_2dRenderer->setRenderColour(1, 1, 1);
+	////draws all of the nodes
+	//for (auto & a_node : m_graph->m_nodes)
+	//{
+	//	if (!a_node->avaliable) // else draw rubber duck
+	//	{
+	//		m_2dRenderer->drawSprite(orbital,a_node->m_data.x, a_node->m_data.y, 50,50);
+	//	}
+	//	else if (a_node->hasBeenSelected) // if a node has been selected draw mike
+	//	{
+	//		m_2dRenderer->drawSprite(bigBad, a_node->m_data.x, a_node->m_data.y, 100,100);
+	//	}
+	//	else
+	//	{
+	//		m_2dRenderer->drawSprite(heart, a_node->m_data.x, a_node->m_data.y, 25, 25);
+	//	}
+	//	
+	//		for (auto & path_node : m_graph->path)
+	//		{
+	//			//if(path_node == m_graph->path->front())
+	//				m_2dRenderer->drawSprite(bones, path_node->m_data.x, path_node->m_data.y, 75, 75);
+	//		}
+	//
+	//}
 	//draws the path
 	for (int i = 0 ; i < int(m_graph->path.size())-1 ;++i)
 	{
