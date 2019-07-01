@@ -4,13 +4,13 @@
 #include <cmath>
 #include "flock.h"
 //CHANGE THESE AT SOME POINT
-#define BOID_SPEED 5.0f
-#define NEIGHBOUR_RADIUS 50.0f
-#define SEPARATION_FORCE 50.0f
+#define BOID_SPEED 1.0f
+#define NEIGHBOUR_RADIUS 20.0f
+#define SEPARATION_FORCE 30.0f
 #define COHERANT_FORCE 20.0f
 #define ALIGNMENT_FORCE 25.0f
-#define BOID_COUNT 500
-#define CIRCLE_FORCE 50.0f
+#define BOID_COUNT 400
+#define CIRCLE_FORCE 5.0f
 
 class flock;
 

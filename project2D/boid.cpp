@@ -38,27 +38,10 @@ void boid::update(float deltaTime)
 		{
 			continue;
 		}
-		if ((thisBoid.position - position).magnitude() < 120.0f)
+		if ((thisBoid.position - position).magnitude() < NEIGHBOUR_RADIUS)
 		{
 			neighbours.push_back(&thisBoid);
 		}
-	}
-
-	//average Neighbour position ---------------------------------
-	if (neighbours.size() > 0) 
-	{
-	Vector_2 averageNeighbourPos;
-		for (boid* thisBoid : neighbours)
-		{
-			averageNeighbourPos += thisBoid->position;
-		}
-		averageNeighbourPos /= neighbours.size();
-
-		Vector_2 fromUsToAveragePos = averageNeighbourPos - this->position;
-
-		fromUsToAveragePos.normalise();
-		fromUsToAveragePos *= SEPARATION_FORCE;
-		this->applyForce(fromUsToAveragePos);
 	}
 
 	//-------------------World center keeps the boids inside the circle---------------------------------------------------------
